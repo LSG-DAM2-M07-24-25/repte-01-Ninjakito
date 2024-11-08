@@ -42,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -50,6 +51,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.androidstudio_koala_template.ui.theme.AndroidStudioKoalaTemplateTheme
 
 class MainActivity : ComponentActivity() {
@@ -89,6 +91,8 @@ fun Repte1View(modifier: Modifier = Modifier) {
     var min by remember { mutableStateOf(0) }
     var max by remember { mutableStateOf(100) }
 
+    var sliderValue by remember { mutableStateOf(0) }
+
     Column (
         modifier = modifier.padding(24.dp)
     ) {
@@ -98,7 +102,9 @@ fun Repte1View(modifier: Modifier = Modifier) {
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold
         )
+
         IconDropDown(icons = icons, onIconSelected = { selectedIcon = it })
+
         Row {
             Text(
                 text = "Min:",
@@ -145,7 +151,7 @@ fun Repte1View(modifier: Modifier = Modifier) {
             )
         }
 
-        MySlider( min = min, max = max)
+        MySlider( min = min, max = max, onSliderChange = { sliderValue = it } )
 
         Button(
             onClick = { icon = selectedIcon },
@@ -158,27 +164,42 @@ fun Repte1View(modifier: Modifier = Modifier) {
 
         HorizontalDivider( thickness = 4.dp )
 
-        Icon(
-            imageVector = icon,
-            contentDescription = icon.name,
+        Row (
             modifier = Modifier
-                .size(100.dp)
-                .align(Alignment.CenterHorizontally),
-            tint = Color.Yellow
-        )
+                .size(150.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(16.dp),
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = icon.name,
+                modifier = Modifier
+                    .size(100.dp),
+                tint = Color.Yellow
+            )
+            Text(
+                text = sliderValue.toString(),
+                modifier = Modifier.zIndex(1f)
+            )
+        }
     }
 }
 
 @Composable
-fun MySlider(min: Int, max: Int, modifier: Modifier = Modifier) {
+fun MySlider(min: Int, max: Int, modifier: Modifier = Modifier, onSliderChange: (Int) -> Unit) {
     var currentValue by remember { mutableStateOf(min) }
 
-    Text(text = currentValue.toString())
+    Text(
+        text = currentValue.toString(),
+        modifier = modifier.padding(8.dp),
+    )
 
     Slider(
-        modifier = modifier.padding(8.dp),
         value = currentValue.toFloat(),
-        onValueChange = { currentValue = it.toInt() },
+        onValueChange = {
+            currentValue = it.toInt()
+            onSliderChange(it.toInt())
+        },
         valueRange = min.toFloat()..max.toFloat()
     )
 }
@@ -189,7 +210,7 @@ fun IconDropDown(modifier: Modifier = Modifier, icons: List<ImageVector>, onIcon
     var expanded by remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier.padding(10.dp)
+        modifier = modifier.padding(8.dp, 32.dp)
     ) {
         OutlinedTextField (
             placeholder = { Text(
@@ -211,14 +232,13 @@ fun IconDropDown(modifier: Modifier = Modifier, icons: List<ImageVector>, onIcon
                     tint = Color.White
                 )
            },
-            textStyle = TextStyle(fontSize = 20.sp, color = Color.White)
+            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
         )
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.Black, RoundedCornerShape(4.dp))
         ) {
             icons.forEach { icon ->
                 DropdownMenuItem(
