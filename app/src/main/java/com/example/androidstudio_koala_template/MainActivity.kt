@@ -166,7 +166,7 @@ fun Repte1View(modifier: Modifier = Modifier) {
 
         Row (
             modifier = Modifier
-                .size(150.dp)
+                .size(200.dp)
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp),
         ) {
@@ -178,8 +178,7 @@ fun Repte1View(modifier: Modifier = Modifier) {
                 tint = Color.Yellow
             )
             Text(
-                text = sliderValue.toString(),
-                modifier = Modifier.zIndex(1f)
+                text = sliderValue.toString()
             )
         }
     }
