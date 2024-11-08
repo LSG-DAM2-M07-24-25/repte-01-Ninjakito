@@ -83,7 +83,8 @@ fun Repte1View(modifier: Modifier = Modifier) {
         )
     }
 
-    var icon by remember { mutableStateOf(0) }
+    var selectedIcon by remember { mutableStateOf(Icons.Default.AccountBox) }
+    var icon by remember { mutableStateOf(Icons.Default.AccountBox) }
 
     var min by remember { mutableStateOf(0) }
     var max by remember { mutableStateOf(100) }
@@ -97,7 +98,7 @@ fun Repte1View(modifier: Modifier = Modifier) {
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold
         )
-        IconDropDown(icons = icons)
+        IconDropDown(icons = icons, onIconSelected = { selectedIcon = it })
         Row {
             Text(
                 text = "Min:",
@@ -147,7 +148,7 @@ fun Repte1View(modifier: Modifier = Modifier) {
         MySlider( min = min, max = max)
 
         Button(
-            onClick = { icon = (icon + 1) % icons.size },
+            onClick = { icon = selectedIcon },
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.End)
@@ -158,8 +159,8 @@ fun Repte1View(modifier: Modifier = Modifier) {
         HorizontalDivider( thickness = 4.dp )
 
         Icon(
-            imageVector = icons[icon],
-            contentDescription = icons[icon].name,
+            imageVector = icon,
+            contentDescription = icon.name,
             modifier = Modifier
                 .size(100.dp)
                 .align(Alignment.CenterHorizontally),
@@ -183,7 +184,7 @@ fun MySlider(min: Int, max: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun IconDropDown(modifier: Modifier = Modifier, icons: List<ImageVector>) {
+fun IconDropDown(modifier: Modifier = Modifier, icons: List<ImageVector>, onIconSelected: (ImageVector) -> Unit) {
     var selectedText by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
 
@@ -225,6 +226,7 @@ fun IconDropDown(modifier: Modifier = Modifier, icons: List<ImageVector>) {
                     onClick = {
                         expanded = false
                         selectedText = icon.name.split("Filled.")[1]
+                        onIconSelected(icon)
                     }
                 )
             }
