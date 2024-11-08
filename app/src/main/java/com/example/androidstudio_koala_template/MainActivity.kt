@@ -19,11 +19,24 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -75,12 +88,22 @@ fun Repte1View(modifier: Modifier = Modifier) {
     val icons by remember {
         mutableStateOf(
             listOf(
-                Icons.Default.AccountBox,
                 Icons.Default.Add,
-                Icons.Default.Build,
-                Icons.Default.KeyboardArrowDown,
-                Icons.Default.MailOutline,
-                Icons.Default.Menu
+                Icons.Default.ArrowBack,
+                Icons.Default.ArrowForward,
+                Icons.Default.ArrowDropDown,
+                Icons.Default.Check,
+                Icons.Default.Clear,
+                Icons.Default.Close,
+                Icons.Default.Delete,
+                Icons.Default.Edit,
+                Icons.Default.Favorite,
+                Icons.Default.FavoriteBorder,
+                Icons.Default.Menu,
+                Icons.Default.Search,
+                Icons.Default.Settings,
+                Icons.Default.Share,
+                Icons.Default.Warning,
             )
         )
     }
@@ -178,7 +201,9 @@ fun Repte1View(modifier: Modifier = Modifier) {
                 tint = Color.Yellow
             )
             Text(
-                text = sliderValue.toString()
+                text = sliderValue.toString(),
+                color = Color.Blue,
+                fontWeight = FontWeight.Bold,
             )
         }
     }
